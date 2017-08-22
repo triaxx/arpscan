@@ -57,7 +57,8 @@ class ArpScanner:
             pass
         re_ip = r'(?P<ip>((2[0-5]|1[0-9]|[0-9])?[0-9]\.){3}((2[0-5]|1[0-9]|[0-9])?[0-9]))'
         re_mac = r'(?P<mac>([0-9a-fA-F]{2}[:-]){5}([0-9a-fA-F]{2}))'
-        pattern = re.compile(re_ip + '\s+' + re_mac)
+        re_hw = r'(?P<hw>[\w.]+)'
+        pattern = re.compile(re_ip + '\s+' + re_mac + '\s' + re_hw)
         return [match.groupdict() for match in re.finditer(pattern, out)]
 
 def main():
@@ -70,7 +71,7 @@ def main():
     args = parser.parse_args()
     arpscan = ArpScanner(args.interface, args.hosts)
     for entry in arpscan.scan():
-        print('{mac}: {ip}'.format(**entry))
+        print('{mac}: {ip} ({hw})'.format(**entry))
 
 if __name__ == '__main__':
     sys.exit(main())
