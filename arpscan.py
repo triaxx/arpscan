@@ -48,7 +48,7 @@ class ArpScanner:
         arpscan = shutil.which('arp-scan')
         if not arpscan:
             raise FileNotFoundError('arp-scan binary is needed')
-        if not subprocess.getstatusoutput(sudo + ' -n echo 0')[0] == 0:
+        if not subprocess.getstatusoutput(sudo + ' -n true')[0] == 0:
             raise PermissionError('You must be a sudoers without password')
         pargs = [sudo, '-n', arpscan, '-I', self.interface, self.hosts]
         try:
